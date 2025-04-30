@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="icon" type="image/png" href="  https://sdmntprsouthcentralus.oaiusercontent.com/files/00000000-3dfc-61f7-a4a5-0dfd81a56f93/raw?se=2025-04-30T18%3A44%3A58Z&sp=r&sv=2024-08-04&sr=b&scid=b953d6b4-3cab-5ddd-9204-8ddfaafb0d69&skoid=51916beb-8d6a-49b8-8b29-ca48ed86557e&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-30T04%3A45%3A20Z&ske=2025-05-01T04%3A45%3A20Z&sks=b&skv=2024-08-04&sig=SU06W1BBYbQN2T8zkZ7WufBYm4dwThyH7S%2BSlhcP4HI%3D ">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background-color: #3b3f2f;
+            color: #e2e2c8;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background-color: #2f3324;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            color: #dce2b7;
+        }
+
+            .logo img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%; /* Дөңгелек ету үшін */
+                object-fit: cover; /* Ішіндегі сурет жақсы көріну үшін */
+            }
+
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #e2e2c8;
+            font-size: 16px;
+        }
+
+            nav a:hover {
+                color: #cfd1ad;
+            }
+
+        h1, h2 {
+            color: #e2e2c8;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+            .tabs button {
+                background-color: #e2e2c8;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                color: #3b3f2f;
+                font-weight: bold;
+            }
+
+                .tabs button.active {
+                    background-color: #cfd1ad;
+                }
+
+        .menu-content {
+            display: none;
+        }
+
+            .menu-content.active {
+                display: block;
+            }
+
+        .day {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #4a4e3a;
+            border-left: 5px solid #a9aa88;
+        }
+
+        .meal {
+            margin: 5px 0;
+        }
+
+        .description {
+            margin-bottom: 20px;
+            background-color: #4a4e3a;
+            padding: 10px;
+            border-left: 5px solid #a9aa88;
+        }
+
+        .price {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo"> <img src=" https://sdmntprsouthcentralus.oaiusercontent.com/files/00000000-3dfc-61f7-a4a5-0dfd81a56f93/raw?se=2025-04-30T18%3A44%3A58Z&sp=r&sv=2024-08-04&sr=b&scid=b953d6b4-3cab-5ddd-9204-8ddfaafb0d69&skoid=51916beb-8d6a-49b8-8b29-ca48ed86557e&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-04-30T04%3A45%3A20Z&ske=2025-05-01T04%3A45%3A20Z&sks=b&skv=2024-08-04&sig=SU06W1BBYbQN2T8zkZ7WufBYm4dwThyH7S%2BSlhcP4HI%3D " >My Diet Plane</div>
+        <nav>
+            <a href="file:///C:/Users/zhlui/Desktop/%D0%B3%D0%BB%D0%B0%D0%B2%20%D1%81%D1%82%D1%80.html">Главная</a>
+            <a href="file:///C:/Users/zhlui/Desktop/%D0%BE%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7.html?email=zhumabayluiza%40mail.ru#">Онлайн-заказы</a>
+            <a href="file:///C:/Users/zhlui/Desktop/%D1%86%D0%B5%D0%BD%D0%B0.html#">Наши услуги</a>
+        </nav>
+    </header>
+
+    <h1>Меню на 7 дней</h1>
+    <div class="tabs">
+        <button onclick="showMenu('loss')" class="active">Снижение веса</button>
+        <button onclick="showMenu('gain')">Набор массы</button>
+        <button onclick="showMenu('pp')">Правильное питание</button>
+    </div>
+
+    <!-- Снижение веса -->
+    <div id="loss" class="menu-content active">
+        <h2>Снижение веса</h2>
+        <div class="description">
+            <p><strong>Дефицит калорий без чувства голода:</strong> блюда насыщают и при этом способствуют снижению веса.</p>
+            <p><strong>Контроль БЖУ — без подсчётов:</strong> просто ешьте — и худейте.</p>
+            <p><strong>Подходит для женщин и мужчин:</strong> комфортный ритм и поддержка организма.</p>
+        </div>
+        <div class="price">⚖️ Низкокалорийная обезжиренная диета  — 95 000 ₸ / ай (30 күн)</div>
+        <button>Подробнее</button>
+        <div class="day">
+            <strong>День 1</strong>
+            <div class="meal">Завтрак: Овсянка с ягодами и медом</div>
+            <div class="meal">Обед: Куриная грудка с киноа и овощами</div>
+            <div class="meal">Ужин: Рыба на пару и брокколи</div>
+        </div>
+        <div class="day">
+            <strong>День 2</strong>
+            <div class="meal">Завтрак: Омлет с овощами</div>
+            <div class="meal">Обед: Тушеная индейка с гречкой</div>
+            <div class="meal">Ужин: Творог с фруктами</div>
+        </div>
+        <div class="day">
+            <strong>День 3</strong>
+            <div class="meal">Завтрак: Йогурт с мюсли и бананом</div>
+            <div class="meal">Обед: Рыбные котлеты с овощами на пару</div>
+            <div class="meal">Ужин: Овощной суп и салат</div>
+        </div>
+        <div class="day">
+            <strong>День 4</strong>
+            <div class="meal">Завтрак: Пшённая каша с тыквой</div>
+            <div class="meal">Обед: Куриное филе с бурым рисом</div>
+            <div class="meal">Ужин: Кабачки и баклажаны на гриле</div>
+        </div>
+        <div class="day">
+            <strong>День 5</strong>
+            <div class="meal">Завтрак: Тост из цельнозернового хлеба с авокадо</div>
+            <div class="meal">Обед: Курица в духовке с картофелем</div>
+            <div class="meal">Ужин: Салат с тунцом</div>
+        </div>
+        <div class="day">
+            <strong>День 6</strong>
+            <div class="meal">Завтрак: Гречневая каша с кефиром</div>
+            <div class="meal">Обед: Овощное рагу с говядиной</div>
+            <div class="meal">Ужин: Запечённые шампиньоны с сыром</div>
+        </div>
+        <div class="day">
+            <strong>День 7</strong>
+            <div class="meal">Завтрак: Смузи с бананом и шпинатом</div>
+            <div class="meal">Обед: Паровые котлеты из индейки с булгуром</div>
+            <div class="meal">Ужин: Лёгкий овощной салат и запечённая рыба</div>
+        </div>
+
+    </div>
+
+    <!-- Набор массы -->
+    <div id="gain" class="menu-content">
+        <h2>Набор массы</h2>
+        <div class="description">
+            <p><strong>Оптимально сбалансирован для роста мышц:</strong> белки, сложные углеводы, полезные жиры.</p>
+            <p><strong>Без вреда для здоровья:</strong> натуральные ингредиенты, без сахара и добавок.</p>
+            <p><strong>Результат через 2–4 недели:</strong> стабильный рост массы без лишнего жира.</p>
+        </div>
+        <div class="price">💪 Высококалорийный рацион с высоким содержанием белка — 110 000 ₸ / ай (30 күн)</div>
+        <div class="day">
+            <strong>День 1</strong>
+            <div class="meal">Завтрак: Яичница с беконом и хлебом</div>
+            <div class="meal">Перекус: Смузи с бананом и арахисовой пастой</div>
+            <div class="meal">Обед: Стейк с картофельным пюре</div>
+            <div class="meal">Ужин: Лосось с рисом и овощами</div>
+        </div>
+
+        <div class="day">
+            <strong>День 2</strong>
+            <div class="meal">Завтрак: Тост с арахисовой пастой и бананом</div>
+            <div class="meal">Перекус: Орехи и сухофрукты</div>
+            <div class="meal">Обед: Плов с говядиной</div>
+            <div class="meal">Ужин: Тушеная курица с картошкой</div>
+        </div>
+
+        <div class="day">
+            <strong>День 3</strong>
+            <div class="meal">Завтрак: Омлет с сыром и ветчиной</div>
+            <div class="meal">Перекус: Протеиновый батончик</div>
+            <div class="meal">Обед: Макароны с мясом</div>
+            <div class="meal">Ужин: Запечённый лосось и картофель</div>
+        </div>
+
+        <div class="day">
+            <strong>День 4</strong>
+            <div class="meal">Завтрак: Блины с творогом</div>
+            <div class="meal">Перекус: Йогурт с мюсли</div>
+            <div class="meal">Обед: Курица в сливочном соусе и рис</div>
+            <div class="meal">Ужин: Гречка с яйцом и салатом</div>
+        </div>
+
+        <div class="day">
+            <strong>День 5</strong>
+            <div class="meal">Завтрак: Каша с орехами и медом</div>
+            <div class="meal">Перекус: Банан и горсть миндаля</div>
+            <div class="meal">Обед: Бифштекс с картофелем</div>
+            <div class="meal">Ужин: Рыбные котлеты с овощами</div>
+        </div>
+
+        <div class="day">
+            <strong>День 6</strong>
+            <div class="meal">Завтрак: Сырники со сметаной</div>
+            <div class="meal">Перекус: Протеиновый коктейль и хлебец</div>
+            <div class="meal">Обед: Лазанья с мясом</div>
+            <div class="meal">Ужин: Куриные крылышки с гречкой</div>
+        </div>
+
+        <div class="day">
+            <strong>День 7</strong>
+            <div class="meal">Завтрак: Тост с авокадо и яйцом</div>
+            <div class="meal">Перекус: Финики и грецкие орехи</div>
+            <div class="meal">Обед: Чечевица с говядиной</div>
+            <div class="meal">Ужин: Паста с лососем</div>
+        </div>
+
+
+    </div>
+
+    <!-- Правильное питание -->
+    <div id="pp" class="menu-content">
+        <h2>Правильное питание (ПП)</h2>
+
+
+        <div class="description">
+            <p><strong>Баланс, польза и вкус:</strong> помогает оставаться энергичным и здоровым.</p>
+            <p><strong>Идеально для повседневного питания:</strong> овощи, белки, сложные углеводы — всё в нужных пропорциях.</p>
+            <p><strong>Экономия времени:</strong> не нужно готовить и считать калории.</p>
+            <p><strong>Поддержка иммунитета и ЖКТ:</strong> клетчатка, витамины, натуральные продукты.</p>
+        </div>
+
+
+        <div class="price">🟢 Сбалансированное питание на каждый день — 90 000 ₸ / ай (30 күн)</div>
+        <div class="day"><strong>День 1</strong><div class="meal">Завтрак: Гречневая каша с молоком</div><div class="meal">Обед: Тушеная курица с рисом</div><div class="meal">Ужин: Салат с тунцом</div></div>
+        <div class="day"><strong>День 2</strong><div class="meal">Завтрак: Йогурт с орехами и фруктами</div><div class="meal">Обед: Индейка с киноа и овощами</div><div class="meal">Ужин: Суп с чечевицей и хлебец</div></div>
+        <div class="day"><strong>День 3</strong><div class="meal">Завтрак: Омлет с брокколи</div><div class="meal">Обед: Рыба с картофелем и шпинатом</div><div class="meal">Ужин: Куриные рулетики с овощами</div></div>
+        <div class="day"><strong>День 4</strong><div class="meal">Завтрак: Овсянка с яблоком и корицей</div><div class="meal">Обед: Паста с куриной грудкой</div><div class="meal">Ужин: Салат с фасолью и яйцом</div></div>
+        <div class="day"><strong>День 5</strong><div class="meal">Завтрак: Бутерброд с хумусом и помидором</div><div class="meal">Обед: Тушеная говядина с гречкой</div><div class="meal">Ужин: Запечённые овощи с сыром</div></div>
+        <div class="day"><strong>День 6</strong><div class="meal">Завтрак: Смузи с кефиром и овсянкой</div><div class="meal">Обед: Рыбные тефтели с рисом</div><div class="meal">Ужин: Салат с курицей и киноа</div></div>
+        <div class="day"><strong>День 7</strong><div class="meal">Завтрак: Творог с ягодами</div><div class="meal">Обед: Курица с картофелем в духовке</div><div class="meal">Ужин: Овощной суп и цельнозерновой хлеб</div></div>
+    </div>
+
+    <script>
+        function showMenu(type) {
+            document.querySelectorAll('.menu-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(type).classList.add('active');
+
+            document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
