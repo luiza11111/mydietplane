@@ -135,6 +135,30 @@
                     background-color: #cfd1ad;
                 }
     </style>
+
+<script>
+    let selectedGoal = null;
+    let currentStep = 1;
+    let answers = {};
+
+    function startOnboarding(goal) {
+        selectedGoal = goal;
+        answers = {}; // очистить при новом запуске
+        currentStep = 2; // начать с шага №2
+        document.getElementById("onboarding").style.display = "flex";
+
+        // скрыть все шаги сначала
+        for (let i = 1; i <= 10; i++) {
+            const step = document.getElementById(`step-${i}`);
+            if (step) step.style.display = "none";
+        }
+
+        // показать шаг 2
+        document.getElementById("step-2").style.display = "block";
+    }
+</script>
+
+    
 </head>
 <body>
 
@@ -156,12 +180,9 @@
             <p>Легко, вкусно и с пользой для здоровья</p>
             <p>90 000 ₸ / ай (30 күн)</p>
             <div class="button-row">
-                <a href="меню.html">
-                    <button>Подробнее</button>
-                </a>
-                <a href="https://kaspi.kz/transfers?ysclid=ma72autjmy52554017">
-                    <button>Купить</button>
-                </a>
+                
+                   <button onclick="startOnboarding('Похудение')">Выбрать</button>
+              
 
             </div>
         </div>
@@ -173,12 +194,8 @@
             <p>Набирай мышечную массу правильно</p>
             <p>110 000 ₸ / ай (30 күн)</p>
             <div class="button-row">
-                <a href="меню.html">
-                    <button >Подробнее</button>
-                </a>
-                <a href="https://kaspi.kz/transfers?ysclid=ma72autjmy52554017">
-                    <button>Купить</button>
-                </a>
+                 <button onclick="startOnboarding('ПП')">Выбрать</button>
+               
             </div>
         </div>
 
@@ -189,12 +206,7 @@
             <p> Худей вкусно и безопасно</p>
             <p> 95 000 ₸ / ай (30 күн)</p>
             <div class="button-row">
-                <a href="меню.html">
-                    <button>Подробнее</button>
-                </a>
-                <a href="https://kaspi.kz/transfers?ysclid=ma72autjmy52554017">
-                    <button>Купить</button>
-                </a>
+                <button onclick="startOnboarding('Масса')">Выбрать</button>
 
             </div>
         </div>
