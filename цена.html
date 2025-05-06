@@ -245,11 +245,36 @@
     </div>
 
     <script>
-        const menuData = {
-            "ПП": ["Меню 1", "Меню 2"],
-            "Масса": ["Меню 1", "Меню 2"],
-            "Похудение": ["Меню 1", "Меню 2"]
-        };
+       const menuData = {
+  "ПП": [
+    "День 1: Овсянка с ягодами, Куриная грудка с гречкой, Творог с медом",
+    "День 2: Яйца пашот и салат, Рыба на пару с овощами, Кефир с фруктами",
+    "День 3: Смузи с бананом и шпинатом, Индейка с рисом, Орехи и яблоко",
+    "День 4: Омлет с помидорами, Тушеные овощи с курицей, Йогурт натуральный",
+    "День 5: Хлеб цельнозерновой с авокадо, Тыквенный суп, Фрукты и орехи",
+    "День 6: Каша из киноа с фруктами, Котлеты из индейки, Овощной салат",
+    "День 7: Сырники из творога, Гречка с овощами, Кефир"
+  ],
+  "Масса": [
+    "День 1: Омлет с сыром и хлебом, Плов с говядиной, Протеиновый коктейль",
+    "День 2: Панкейки с бананом и мёдом, Макароны с курицей, Орехи и изюм",
+    "День 3: Бутерброд с арахисовой пастой, Картофель с мясом, Творожная запеканка",
+    "День 4: Яичница с хлебом, Бурый рис с курицей, Йогурт с орехами",
+    "День 5: Манная каша с маслом, Тушеная говядина с гречкой, Смузи",
+    "День 6: Блины с творогом, Запечённая курица с картошкой, Банан",
+    "День 7: Мюсли с молоком, Макароны по-флотски, Орехи и батончик"
+  ],
+  "Похудение": [
+    "День 1: Яблоко и йогурт, Курица с овощами, Кефир",
+    "День 2: Омлет на пару, Рыба с брокколи, Салат из капусты",
+    "День 3: Смузи с ягодами, Творог 5%, Гречка с тушеными овощами",
+    "День 4: Овсянка на воде, Вареное яйцо, Овощной суп",
+    "День 5: Зеленое яблоко, Куриный рулет с овощами, Кефир",
+    "День 6: Яйца и шпинат, Филе индейки с овощами, Натуральный йогурт",
+    "День 7: Смузи, Отварная рыба с кабачками, Творог нежирный"
+  ]
+};
+
 
         const priceData = {
             "ПП": { week: "14 000 ₸", month: "55 000 ₸" },
@@ -258,29 +283,68 @@
         };
 
         let selectedGoal = null;
-        let currentStep = 2;
-        let answers = {};
+    let currentStep = 2;
+    let answers = {};
 
-        function startOnboarding(goal) {
-            selectedGoal = goal;
-            answers = {};
-            currentStep = 2;
-            document.getElementById("onboarding").style.display = "flex";
-            for (let i = 2; i <= 10; i++) {
-                let step = document.getElementById("step-" + i);
-                if (step) step.style.display = "none";
-            }
-            document.getElementById("step-2").style.display = "block";
+    function startOnboarding(goal) {
+        selectedGoal = goal;
+        answers = {};
+        currentStep = 2;
+        document.getElementById("onboarding").style.display = "flex";
+        for (let i = 2; i <= 10; i++) {
+            let step = document.getElementById("step-" + i);
+            if (step) step.style.display = "none";
+        }
+        document.getElementById("step-2").style.display = "block";
+    }
+
+    function selectAnswer(key, value) {
+        answers[key] = value;
+        const currentEl = document.getElementById("step-" + currentStep);
+        if (currentEl) currentEl.style.display = "none";
+        currentStep++;
+        const nextEl = document.getElementById("step-" + currentStep);
+        if (nextEl) {
+            nextEl.style.display = "block";
+        } else {
+            showSummary();
+        }
+    }
+
+    function submitInput(key, inputId) {
+        const input = document.getElementById(inputId);
+        const value = input.value.trim();
+        if (value === "") {
+            alert("Пожалуйста, заполните поле.");
+            return;
         }
 
-        function selectAnswer(key, value) {
-            answers[key] = value;
-            const currentEl = document.getElementById("step-" + currentStep);
-            if (currentEl) currentEl.style.display = "none";
-            currentStep++;
-            const nextEl = document.getElementById("step-" + currentStep);
-            if (nextEl) nextEl.style.display = "block";
+        answers[key] = value;
+
+        const currentEl = document.getElementById("step-" + currentStep);
+        if (currentEl) currentEl.style.display = "none";
+        currentStep++;
+        const nextEl = document.getElementById("step-" + currentStep);
+        if (nextEl) {
+            nextEl.style.display = "block";
+        } else {
+            showSummary();
         }
-    </script>
+    }
+
+    function showSummary() {
+        let summaryText = "Вы выбрали цель: <b>" + selectedGoal + "</b><br><br>";
+        for (let key in answers) {
+            summaryText += `<b>${key}</b>: ${answers[key]}<br>`;
+        }
+        document.getElementById("summary").innerHTML = summaryText;
+        document.getElementById("step-" + currentStep).style.display = "block";
+    }
+
+    function finishOnboarding() {
+        alert("Заявка отправлена! Спасибо!");
+        document.getElementById("onboarding").style.display = "none";
+    }
+</script>
 </body>
 </html>
