@@ -176,59 +176,126 @@
     </style>
 
 <script>
-    function selectAnswer(key, value) {
-  answers[key] = value;
-  document.getElementById(`step-${currentStep}`).style.display = "none";
-  currentStep++;
-  const next = document.getElementById(`step-${currentStep}`);
-  if (next) {
-    next.style.display = "block";
-    if (currentStep === 10) {
-      document.getElementById("summary").innerHTML = `
-        <b>Цель:</b> ${selectedGoal}<br>
-        <b>Тип заказа:</b> ${answers["orderType"]}<br>
-        <b>Адрес:</b> ${answers["address"]}<br>
-        <b>Контакт:</b> ${answers["contact"]}
-      `;
-    }
-  }
-}
+   <script>
+  // 🌟 Мәзір мен бағалар
+  const menuData = {
+  "ПП": [
+    "День 1: Овсянка с ягодами, Куриная грудка с гречкой, Творог с медом",
+    "День 2: Яйца пашот и салат, Рыба на пару с овощами, Кефир с фруктами",
+    "День 3: Смузи с бананом и шпинатом, Индейка с рисом, Орехи и яблоко",
+    "День 4: Омлет с помидорами, Тушеные овощи с курицей, Йогурт натуральный",
+    "День 5: Хлеб цельнозерновой с авокадо, Тыквенный суп, Фрукты и орехи",
+    "День 6: Каша из киноа с фруктами, Котлеты из индейки, Овощной салат",
+    "День 7: Сырники из творога, Гречка с овощами, Кефир"
+  ],
+  "Масса": [
+    "День 1: Омлет с сыром и хлебом, Плов с говядиной, Протеиновый коктейль",
+    "День 2: Панкейки с бананом и мёдом, Макароны с курицей, Орехи и изюм",
+    "День 3: Бутерброд с арахисовой пастой, Картофель с мясом, Творожная запеканка",
+    "День 4: Яичница с хлебом, Бурый рис с курицей, Йогурт с орехами",
+    "День 5: Манная каша с маслом, Тушеная говядина с гречкой, Смузи",
+    "День 6: Блины с творогом, Запечённая курица с картошкой, Банан",
+    "День 7: Мюсли с молоком, Макароны по-флотски, Орехи и батончик"
+  ],
+  "Похудение": [
+    "День 1: Яблоко и йогурт, Курица с овощами, Кефир",
+    "День 2: Омлет на пару, Рыба с брокколи, Салат из капусты",
+    "День 3: Смузи с ягодами, Творог 5%, Гречка с тушеными овощами",
+    "День 4: Овсянка на воде, Вареное яйцо, Овощной суп",
+    "День 5: Зеленое яблоко, Куриный рулет с овощами, Кефир",
+    "День 6: Яйца и шпинат, Филе индейки с овощами, Натуральный йогурт",
+    "День 7: Смузи, Отварная рыба с кабачками, Творог нежирный"
+  ]
+};
 
-function submitInput(key, inputId) {
-  const value = document.getElementById(inputId).value.trim();
-  if (value === "") {
-    alert("Пожалуйста, заполните поле");
-    return;
-  }
-  selectAnswer(key, value);
-}
+  const priceData = {
+    "ПП": { week: "14 000 ₸", month: "55 000 ₸" },
+    "Масса": { week: "16 000 ₸", month: "62 000 ₸" },
+    "Похудение": { week: "13 000 ₸", month: "50 000 ₸" }
+  };
 
-function finishOnboarding() {
-  localStorage.setItem("onboardingComplete", "true");
-  localStorage.setItem("onboardingAnswers", JSON.stringify(answers));
-  document.getElementById("onboarding").style.display = "none";
-  console.log("Ответы:", answers);
-}
+  let selectedGoal = null;
+  let currentStep = 1;
+  let answers = {};
 
-    let selectedGoal = null;
-    let currentStep = 1;
-    let answers = {};
+  function selectAnswer(key, value) {
+    answers[key] = value;
+    document.getElementById(`step-${currentStep}`).style.display = "none";
+    currentStep++;
+    const next = document.getElementById(`step-${currentStep}`);
+    if (next) {
+      next.style.display = "block";
 
-    function startOnboarding(goal) {
-        selectedGoal = goal;
-        answers = {}; // очистить при новом запуске
-        currentStep = 2; // начать с шага №2
-        document.getElementById("onboarding").style.display = "flex";
+      // 📦 Егер қолданушы заказ типін таңдаса (На неделю / На месяц)
+      if (key === "orderType") {
+        const menu = menuData[selectedGoal];
+        const price = priceData[selectedGoal][value === "На неделю" ? "week" : "month"];
 
-        // скрыть все шаги сначала
-        for (let i = 1; i <= 10; i++) {
-            const step = document.getElementById(`step-${i}`);
-            if (step) step.style.display = "none";
+        let menuText = "<h3>Ваше меню на 7 дней:</h3><ul>";
+        for (let day of menu) {
+          menuText += `<li>${day}</li>`;
+        }
+        menuText += "</ul>";
+
+        if (value === "На месяц") {
+          menuText += "<p><em>В течение месяца питание будет разнообразным</em></p>";
         }
 
-        // показать шаг 2
-        document.getElementById("step-2").style.display = "block";
+        menuText += `<p><strong>Цена: ${price}</strong></p>`;
+
+        // step-2 ішіне меню мен бағаны қосу
+        document.getElementById("step-2").innerHTML += `
+          <div style="margin-top: 20px; text-align: left;">
+            ${menuText}
+          </div>
+        `;
+      }
+
+      // 🔚 Соңғы қадам - summary
+      if (currentStep === 10) {
+        document.getElementById("summary").innerHTML = `
+          <b>Цель:</b> ${selectedGoal}<br>
+          <b>Тип заказа:</b> ${answers["orderType"]}<br>
+          <b>Адрес:</b> ${answers["address"]}<br>
+          <b>Контакт:</b> ${answers["contact"]}
+        `;
+      }
     }
+  }
+
+  function submitInput(key, inputId) {
+    const value = document.getElementById(inputId).value.trim();
+    if (value === "") {
+      alert("Пожалуйста, заполните поле");
+      return;
+    }
+    selectAnswer(key, value);
+  }
+
+  function finishOnboarding() {
+    localStorage.setItem("onboardingComplete", "true");
+    localStorage.setItem("onboardingAnswers", JSON.stringify(answers));
+    document.getElementById("onboarding").style.display = "none";
+    console.log("Ответы:", answers);
+  }
+
+  function startOnboarding(goal) {
+    selectedGoal = goal;
+    answers = {};
+    currentStep = 2;
+    document.getElementById("onboarding").style.display = "flex";
+
+    // Барлық қадамдарды жасыру
+    for (let i = 1; i <= 10; i++) {
+      const step = document.getElementById(`step-${i}`);
+      if (step) step.style.display = "none";
+    }
+
+    // 2-қадамды көрсету
+    document.getElementById("step-2").style.display = "block";
+  }
+</script>
+
 </script>
 
     
