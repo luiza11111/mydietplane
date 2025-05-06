@@ -134,9 +134,82 @@
                 .button-row button:hover {
                     background-color: #cfd1ad;
                 }
+
+        .onboarding {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(47, 51, 36, 0.95);
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.onboarding-step {
+  background-color: #4a4e3a;
+  padding: 30px;
+  max-width: 400px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.onboarding-step input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: none;
+}
+
+.onboarding-step button {
+  background-color: #e2e2c8;
+  color: #3b3f2f;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
     </style>
 
 <script>
+    function selectAnswer(key, value) {
+  answers[key] = value;
+  document.getElementById(`step-${currentStep}`).style.display = "none";
+  currentStep++;
+  const next = document.getElementById(`step-${currentStep}`);
+  if (next) {
+    next.style.display = "block";
+    if (currentStep === 10) {
+      document.getElementById("summary").innerHTML = `
+        <b>Цель:</b> ${selectedGoal}<br>
+        <b>Тип заказа:</b> ${answers["orderType"]}<br>
+        <b>Адрес:</b> ${answers["address"]}<br>
+        <b>Контакт:</b> ${answers["contact"]}
+      `;
+    }
+  }
+}
+
+function submitInput(key, inputId) {
+  const value = document.getElementById(inputId).value.trim();
+  if (value === "") {
+    alert("Пожалуйста, заполните поле");
+    return;
+  }
+  selectAnswer(key, value);
+}
+
+function finishOnboarding() {
+  localStorage.setItem("onboardingComplete", "true");
+  localStorage.setItem("onboardingAnswers", JSON.stringify(answers));
+  document.getElementById("onboarding").style.display = "none";
+  console.log("Ответы:", answers);
+}
+
     let selectedGoal = null;
     let currentStep = 1;
     let answers = {};
@@ -211,6 +284,64 @@
             </div>
         </div>
 
+<!-- Onboarding Block -->
+<div id="onboarding" class="onboarding" style="display: none;">
+  <div class="onboarding-step" id="step-2">
+    <h2>Какой тип заказа вас интересует?</h2>
+    <button onclick="selectAnswer('orderType', 'На неделю')">На неделю</button>
+    <button onclick="selectAnswer('orderType', 'На месяц')">На месяц</button>
+  </div>
+
+  <div class="onboarding-step" id="step-3" style="display: none;">
+    <h2>Откуда вы о нас узнали?</h2>
+    <button onclick="selectAnswer('source', 'Instagram')">Instagram</button>
+    <button onclick="selectAnswer('source', 'От друзей')">От друзей</button>
+    <button onclick="selectAnswer('source', 'Google')">Google</button>
+  </div>
+
+  <div class="onboarding-step" id="step-4" style="display: none;">
+    <h2>Когда вам удобно получать еду?</h2>
+    <button onclick="selectAnswer('delivery', 'Утром')">Утром</button>
+    <button onclick="selectAnswer('delivery', 'Вечером')">Вечером</button>
+  </div>
+
+  <div class="onboarding-step" id="step-5" style="display: none;">
+    <h2>У вас есть аллергии?</h2>
+    <button onclick="selectAnswer('allergy', 'Нет')">Нет</button>
+    <button onclick="selectAnswer('allergy', 'Орехи')">Орехи</button>
+    <button onclick="selectAnswer('allergy', 'Глютен')">Глютен</button>
+  </div>
+
+  <div class="onboarding-step" id="step-6" style="display: none;">
+    <h2>Введите ваш адрес</h2>
+    <input type="text" id="addressInput" placeholder="Адрес доставки" />
+    <button onclick="submitInput('address', 'addressInput')">Продолжить</button>
+  </div>
+
+  <div class="onboarding-step" id="step-7" style="display: none;">
+    <h2>Ваш текущий вес</h2>
+    <input type="number" id="weightInput" placeholder="кг" />
+    <button onclick="submitInput('weight', 'weightInput')">Продолжить</button>
+  </div>
+
+  <div class="onboarding-step" id="step-8" style="display: none;">
+    <h2>Ваш рост</h2>
+    <input type="number" id="heightInput" placeholder="см" />
+    <button onclick="submitInput('height', 'heightInput')">Продолжить</button>
+  </div>
+
+  <div class="onboarding-step" id="step-9" style="display: none;">
+    <h2>Контакт для связи</h2>
+    <input type="text" id="contactInput" placeholder="Телефон / WhatsApp" />
+    <button onclick="submitInput('contact', 'contactInput')">Продолжить</button>
+  </div>
+
+  <div class="onboarding-step" id="step-10" style="display: none;">
+    <h2>Спасибо!</h2>
+    <p id="summary"></p>
+    <button onclick="finishOnboarding()">Начать</button>
+  </div>
+</div>
 
 </body>
 </html>
