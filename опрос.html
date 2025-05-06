@@ -53,6 +53,42 @@
   </style>
 
   <script>
+
+function getMenuByGoalAndOrder(goal, orderType) {
+  const menu = {
+    "Похудение": {
+      "На неделю": { price: "14 900 ₸", menu: "5 сбалансированных обедов и ужинов" },
+      "На месяц": { price: "49 900 ₸", menu: "20 низкокалорийных комплексов" }
+    },
+    "ПП": {
+      "На неделю": { price: "16 900 ₸", menu: "5 дней разнообразного ПП-меню" },
+      "На месяц": { price: "54 900 ₸", menu: "20 дней полезного питания" }
+    },
+    "Масса": {
+      "На неделю": { price: "18 900 ₸", menu: "Питательные блюда с высоким белком" },
+      "На месяц": { price: "59 900 ₸", menu: "Рацион с повышенной калорийностью" }
+    }
+  };
+
+  return (menu[goal] && menu[goal][orderType]) || { price: "—", menu: "Меню не найдено" };
+}
+
+function finishOnboarding() {
+  answers["goal"] = selectedGoal;
+  localStorage.setItem("onboardingComplete", "true");
+  localStorage.setItem("onboardingAnswers", JSON.stringify(answers));
+  const { orderType } = answers;
+  const summary = getMenuByGoalAndOrder(selectedGoal, orderType);
+  document.getElementById("menuSummary").innerHTML = `
+    <strong>Ваша цель:</strong> ${selectedGoal}<br />
+    <strong>Тип заказа:</strong> ${orderType}<br />
+    <strong>Меню:</strong> ${summary.menu}<br />
+    <strong>Цена:</strong> ${summary.price}
+  `;
+  console.log("Ответы онбординга:", answers);
+}
+
+    
     let currentStep = 1;
     let answers = {};
     let selectedGoal = "Похудение"; // Здесь можно программно задавать: "Похудение", "ПП", "Масса"
