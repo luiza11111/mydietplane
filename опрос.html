@@ -1,183 +1,183 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Онбординг</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    .onboarding {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(47, 51, 36, 0.95);
+      color: #dce2b7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .onboarding-step {
+      background-color: #3a3e2f;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .onboarding-step h2 {
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+    .onboarding-step button {
+      padding: 10px 20px;
+      background-color: #dce2b7;
+      color: #2f3324;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .onboarding-step p {
+      margin-top: 15px;
+      font-size: 16px;
+    }
+    .onboarding-step input {
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 15px;
+    }
+  </style>
 
-    <style>
-        .onboarding {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(47, 51, 36, 0.95);
-            color: #dce2b7;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
+  <script>
+    let currentStep = 1;
+    let answers = {};
+    let selectedGoal = "Похудение"; // Здесь можно программно задавать: "Похудение", "ПП", "Масса"
 
-        .onboarding-step {
-            background-color: #3a3e2f;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 400px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
+    function selectAnswer(key, value) {
+      answers[key] = value;
+      document.getElementById(`step-${currentStep}`).style.display = "none";
+      currentStep++;
+      if (document.getElementById(`step-${currentStep}`)) {
+        document.getElementById(`step-${currentStep}`).style.display = "block";
+      } else {
+        finishOnboarding();
+      }
+    }
 
-            .onboarding-step h2 {
-                font-size: 22px;
-                margin-bottom: 15px;
-            }
+    function submitInput(key, inputId) {
+      const value = document.getElementById(inputId).value.trim();
+      if (value === "") {
+        alert("Пожалуйста, заполните поле");
+        return;
+      }
+      answers[key] = value;
+      document.getElementById(`step-${currentStep}`).style.display = "none";
+      currentStep++;
+      if (document.getElementById(`step-${currentStep}`)) {
+        document.getElementById(`step-${currentStep}`).style.display = "block";
+      } else {
+        finishOnboarding();
+      }
+    }
 
-            .onboarding-step button {
-                padding: 10px 20px;
-                background-color: #dce2b7;
-                color: #2f3324;
-                border: none;
-                border-radius: 5px;
-                font-weight: bold;
-                cursor: pointer;
-                margin: 5px;
-            }
+    function finishOnboarding() {
+      answers["goal"] = selectedGoal;
+      document.getElementById("onboarding").style.display = "none";
+      localStorage.setItem("onboardingComplete", "true");
+      localStorage.setItem("onboardingAnswers", JSON.stringify(answers));
+      console.log("Ответы онбординга:", answers);
+    }
 
-            .onboarding-step p {
-                margin-top: 15px;
-                font-size: 16px;
-            }
-
-            .onboarding-step input {
-                padding: 10px;
-                width: 100%;
-                border-radius: 5px;
-                border: none;
-                margin-bottom: 15px;
-            }
-    </style>
-
-    <script>
-        let currentStep = 1;
-        let answers = {};
-
-        function selectAnswer(key, value) {
-            answers[key] = value;
-            document.getElementById(`step-${currentStep}`).style.display = "none";
-            currentStep++;
-            if (document.getElementById(`step-${currentStep}`)) {
-                document.getElementById(`step-${currentStep}`).style.display = "block";
-            } else {
-                finishOnboarding();
-            }
-        }
-
-        function submitAddress() {
-            const address = document.getElementById("addressInput").value.trim();
-            if (address === "") {
-                alert("Пожалуйста, введите адрес");
-                return;
-            }
-            answers["address"] = address;
-            document.getElementById(`step-${currentStep}`).style.display = "none";
-            currentStep++;
-            if (document.getElementById(`step-${currentStep}`)) {
-                document.getElementById(`step-${currentStep}`).style.display = "block";
-            } else {
-                finishOnboarding();
-            }
-        }
-
-        function finishOnboarding() {
-            document.getElementById("onboarding").style.display = "none";
-            localStorage.setItem("onboardingComplete", "true");
-            localStorage.setItem("onboardingAnswers", JSON.stringify(answers));
-            console.log("Ответы онбординга:", answers);
-        }
-
-        window.onload = function () {
-            if (localStorage.getItem("onboardingComplete") === "true") {
-                document.getElementById("onboarding").style.display = "none";
-            }
-        };
-    </script>
+    window.onload = function () {
+      if (localStorage.getItem("onboardingComplete") === "true") {
+        document.getElementById("onboarding").style.display = "none";
+      }
+    };
+  </script>
 </head>
 <body>
 
-    <div id="onboarding" class="onboarding">
-        <!-- 1 -->
-        <div class="onboarding-step" id="step-1">
-            <h2>Какова ваша цель?</h2>
-            <button onclick="selectAnswer('goal', 'Похудение')">Похудение</button>
-            <button onclick="selectAnswer('goal', 'Правильное питание')">ПП</button>
-            <button onclick="selectAnswer('goal', 'Набор массы')">Набор массы</button>
-        </div>
-
-        <!-- 2 -->
-        <div class="onboarding-step" id="step-2" style="display: none;">
-            <h2>Какой тип еды вы предпочитаете?</h2>
-            <button onclick="selectAnswer('food', 'Вегетарианская')">Вегетарианская</button>
-            <button onclick="selectAnswer('food', 'С мясом')">С мясом</button>
-            <button onclick="selectAnswer('food', 'Без разницы')">Без разницы</button>
-        </div>
-
-        <!-- 3 -->
-        <div class="onboarding-step" id="step-3" style="display: none;">
-            <h2>Какой тип заказа вас интересует?</h2>
-            <button onclick="selectAnswer('orderType', 'Разовый')">Разовый</button>
-            <button onclick="selectAnswer('orderType', 'На неделю')">На неделю</button>
-            <button onclick="selectAnswer('orderType', 'На месяц')">На месяц</button>
-        </div>
-
-        <!-- 4 -->
-        <div class="onboarding-step" id="step-4" style="display: none;">
-            <h2>Откуда вы о нас узнали?</h2>
-            <button onclick="selectAnswer('source', 'Instagram')">Instagram</button>
-            <button onclick="selectAnswer('source', 'От друзей')">От друзей</button>
-            <button onclick="selectAnswer('source', 'Через Google')">Через Google</button>
-        </div>
-
-        <!-- 5 -->
-        <div class="onboarding-step" id="step-5" style="display: none;">
-            <h2>У вас есть аллергии?</h2>
-            <button onclick="selectAnswer('allergy', 'Нет')">Нет</button>
-            <button onclick="selectAnswer('allergy', 'Орехи')">Орехи</button>
-            <button onclick="selectAnswer('allergy', 'Другое')">Другое</button>
-        </div>
-
-        <!-- 6 -->
-        <div class="onboarding-step" id="step-6" style="display: none;">
-            <h2>Когда удобно получать доставку?</h2>
-            <button onclick="selectAnswer('delivery', 'Утро 7–9')">7:00–9:00</button>
-            <button onclick="selectAnswer('delivery', 'День 12–14')">12:00–14:00</button>
-            <button onclick="selectAnswer('delivery', 'Вечер 18–20')">18:00–20:00</button>
-        </div>
-
-        <!-- 7 -->
-        <div class="onboarding-step" id="step-7" style="display: none;">
-            <h2>Какой способ связи вам удобен?</h2>
-            <button onclick="selectAnswer('contact', 'Телефон')">Телефон</button>
-            <button onclick="selectAnswer('contact', 'WhatsApp')">WhatsApp</button>
-            <button onclick="selectAnswer('contact', 'Telegram')">Telegram</button>
-        </div>
-
-        <!-- 8 -->
-        <div class="onboarding-step" id="step-8" style="display: none;">
-            <h2>Введите ваш адрес</h2>
-            <input type="text" id="addressInput" placeholder="Город, улица, номер дома..." />
-            <button onclick="submitAddress()">Продолжить</button>
-        </div>
-
-        <!-- 9 -->
-        <div class="onboarding-step" id="step-9" style="display: none;">
-            <h2>Спасибо!</h2>
-            <p>Мы подготовим для вас индивидуальное меню ✅</p>
-            <button onclick="finishOnboarding()">Начать</button>
-        </div>
-
+  <div id="onboarding" class="onboarding">
+    <!-- 1 -->
+    <div class="onboarding-step" id="step-1">
+      <h2>Какой тип еды вы предпочитаете?</h2>
+      <button onclick="selectAnswer('food', 'Вегетарианская')">Вегетарианская</button>
+      <button onclick="selectAnswer('food', 'С мясом')">С мясом</button>
+      <button onclick="selectAnswer('food', 'Без разницы')">Без разницы</button>
     </div>
+
+    <!-- 2 -->
+    <div class="onboarding-step" id="step-2" style="display: none;">
+      <h2>Какой тип заказа вас интересует?</h2>
+      <button onclick="selectAnswer('orderType', 'Разовый')">Разовый</button>
+      <button onclick="selectAnswer('orderType', 'На неделю')">На неделю</button>
+      <button onclick="selectAnswer('orderType', 'На месяц')">На месяц</button>
+    </div>
+
+    <!-- 3 -->
+    <div class="onboarding-step" id="step-3" style="display: none;">
+      <h2>Откуда вы о нас узнали?</h2>
+      <button onclick="selectAnswer('source', 'Instagram')">Instagram</button>
+      <button onclick="selectAnswer('source', 'От друзей')">От друзей</button>
+      <button onclick="selectAnswer('source', 'Через Google')">Google</button>
+    </div>
+
+    <!-- 4 -->
+    <div class="onboarding-step" id="step-4" style="display: none;">
+      <h2>У вас есть аллергии?</h2>
+      <button onclick="selectAnswer('allergy', 'Нет')">Нет</button>
+      <button onclick="selectAnswer('allergy', 'Орехи')">Орехи</button>
+      <button onclick="selectAnswer('allergy', 'Другое')">Другое</button>
+    </div>
+
+    <!-- 5 -->
+    <div class="onboarding-step" id="step-5" style="display: none;">
+      <h2>Когда удобно получать доставку?</h2>
+      <button onclick="selectAnswer('delivery', '7:00–9:00')">7:00–9:00</button>
+      <button onclick="selectAnswer('delivery', '12:00–14:00')">12:00–14:00</button>
+      <button onclick="selectAnswer('delivery', '18:00–20:00')">18:00–20:00</button>
+    </div>
+
+    <!-- 6 -->
+    <div class="onboarding-step" id="step-6" style="display: none;">
+      <h2>Какой способ связи вам удобен?</h2>
+      <button onclick="selectAnswer('contact', 'Телефон')">Телефон</button>
+      <button onclick="selectAnswer('contact', 'WhatsApp')">WhatsApp</button>
+      <button onclick="selectAnswer('contact', 'Telegram')">Telegram</button>
+    </div>
+
+    <!-- 7 -->
+    <div class="onboarding-step" id="step-7" style="display: none;">
+      <h2>Введите ваш адрес</h2>
+      <input type="text" id="addressInput" placeholder="Город, улица, номер дома..." />
+      <button onclick="submitInput('address', 'addressInput')">Продолжить</button>
+    </div>
+
+    <!-- 8 -->
+    <div class="onboarding-step" id="step-8" style="display: none;">
+      <h2>Ваш текущий вес (кг)</h2>
+      <input type="number" id="weightInput" placeholder="Например: 65" />
+      <button onclick="submitInput('weight', 'weightInput')">Продолжить</button>
+    </div>
+
+    <!-- 9 -->
+    <div class="onboarding-step" id="step-9" style="display: none;">
+      <h2>Ваш рост (см)</h2>
+      <input type="number" id="heightInput" placeholder="Например: 170" />
+      <button onclick="submitInput('height', 'heightInput')">Продолжить</button>
+    </div>
+
+    <!-- 10 -->
+    <div class="onboarding-step" id="step-10" style="display: none;">
+      <h2>Спасибо!</h2>
+      <p>Мы подготовим для вас индивидуальное меню ✅</p>
+      <button onclick="finishOnboarding()">Начать</button>
+    </div>
+  </div>
 
 </body>
 </html>
