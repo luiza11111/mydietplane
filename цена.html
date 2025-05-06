@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="icon" type="image/png" href=" лого.png ">
-
+    <link rel="icon" type="image/png" href="лого.png">
+    <title>My Diet Plan</title>
     <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background-color: #3b3f2f;
+            color: #e2e2c8;
+        }
+
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -19,37 +25,17 @@
             font-weight: bold;
             font-size: 20px;
             color: #dce2b7;
+            display: flex;
+            align-items: center;
         }
 
             .logo img {
                 width: 40px;
                 height: 40px;
-                border-radius: 50%; /* Дөңгелек ету үшін */
-                object-fit: cover; /* Ішіндегі сурет жақсы көріну үшін */
+                border-radius: 50%;
+                object-fit: cover;
+                margin-right: 10px;
             }
-
-
-        body {
-            margin: 0;
-            font-family: sans-serif;
-            background-color: #3b3f2f;
-            color: #e2e2c8;
-        }
-
-        header {
-            background-color: #3b3f2f;
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-weight: bold;
-        }
-
-
-
 
         nav a {
             margin: 0 15px;
@@ -116,297 +102,185 @@
                     background-color: #cfd1ad;
                 }
 
-        .button-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
+        .onboarding {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: rgba(47, 51, 36, 0.95);
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
         }
 
-            .button-row button {
-                background-color: #e2e2c8;
-                color: #3b3f2f;
-                border: none;
+        .onboarding-step {
+            background-color: #4a4e3a;
+            padding: 30px;
+            max-width: 400px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+            .onboarding-step input {
+                width: 100%;
                 padding: 10px;
-                cursor: pointer;
-                flex: 1;
+                margin-bottom: 15px;
+                border-radius: 5px;
+                border: none;
             }
 
-                .button-row button:hover {
-                    background-color: #cfd1ad;
-                }
-
-        .onboarding {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: rgba(47, 51, 36, 0.95);
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.onboarding-step {
-  background-color: #4a4e3a;
-  padding: 30px;
-  max-width: 400px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.onboarding-step input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: none;
-}
-
-.onboarding-step button {
-  background-color: #e2e2c8;
-  color: #3b3f2f;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
+            .onboarding-step button {
+                background-color: #e2e2c8;
+                color: #3b3f2f;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
     </style>
-
-<script>
-   <script>
-  // 🌟 Мәзір мен бағалар
-  const menuData = {
-  "ПП": [
-    "День 1: Овсянка с ягодами, Куриная грудка с гречкой, Творог с медом",
-    "День 2: Яйца пашот и салат, Рыба на пару с овощами, Кефир с фруктами",
-    "День 3: Смузи с бананом и шпинатом, Индейка с рисом, Орехи и яблоко",
-    "День 4: Омлет с помидорами, Тушеные овощи с курицей, Йогурт натуральный",
-    "День 5: Хлеб цельнозерновой с авокадо, Тыквенный суп, Фрукты и орехи",
-    "День 6: Каша из киноа с фруктами, Котлеты из индейки, Овощной салат",
-    "День 7: Сырники из творога, Гречка с овощами, Кефир"
-  ],
-  "Масса": [
-    "День 1: Омлет с сыром и хлебом, Плов с говядиной, Протеиновый коктейль",
-    "День 2: Панкейки с бананом и мёдом, Макароны с курицей, Орехи и изюм",
-    "День 3: Бутерброд с арахисовой пастой, Картофель с мясом, Творожная запеканка",
-    "День 4: Яичница с хлебом, Бурый рис с курицей, Йогурт с орехами",
-    "День 5: Манная каша с маслом, Тушеная говядина с гречкой, Смузи",
-    "День 6: Блины с творогом, Запечённая курица с картошкой, Банан",
-    "День 7: Мюсли с молоком, Макароны по-флотски, Орехи и батончик"
-  ],
-  "Похудение": [
-    "День 1: Яблоко и йогурт, Курица с овощами, Кефир",
-    "День 2: Омлет на пару, Рыба с брокколи, Салат из капусты",
-    "День 3: Смузи с ягодами, Творог 5%, Гречка с тушеными овощами",
-    "День 4: Овсянка на воде, Вареное яйцо, Овощной суп",
-    "День 5: Зеленое яблоко, Куриный рулет с овощами, Кефир",
-    "День 6: Яйца и шпинат, Филе индейки с овощами, Натуральный йогурт",
-    "День 7: Смузи, Отварная рыба с кабачками, Творог нежирный"
-  ]
-};
-
-  const priceData = {
-    "ПП": { week: "14 000 ₸", month: "55 000 ₸" },
-    "Масса": { week: "16 000 ₸", month: "62 000 ₸" },
-    "Похудение": { week: "13 000 ₸", month: "50 000 ₸" }
-  };
-
-  let selectedGoal = null;
-  let currentStep = 1;
-  let answers = {};
-
-  function selectAnswer(key, value) {
-    answers[key] = value;
-    document.getElementById(`step-${currentStep}`).style.display = "none";
-    currentStep++;
-    const next = document.getElementById(`step-${currentStep}`);
-    if (next) {
-      next.style.display = "block";
-
-      // 📦 Егер қолданушы заказ типін таңдаса (На неделю / На месяц)
-      if (key === "orderType") {
-        const menu = menuData[selectedGoal];
-        const price = priceData[selectedGoal][value === "На неделю" ? "week" : "month"];
-
-        let menuText = "<h3>Ваше меню на 7 дней:</h3><ul>";
-        for (let day of menu) {
-          menuText += `<li>${day}</li>`;
-        }
-        menuText += "</ul>";
-
-        if (value === "На месяц") {
-          menuText += "<p><em>В течение месяца питание будет разнообразным</em></p>";
-        }
-
-        menuText += `<p><strong>Цена: ${price}</strong></p>`;
-
-        // step-2 ішіне меню мен бағаны қосу
-        document.getElementById("step-2").innerHTML += `
-          <div style="margin-top: 20px; text-align: left;">
-            ${menuText}
-          </div>
-        `;
-      }
-
-      // 🔚 Соңғы қадам - summary
-      if (currentStep === 10) {
-        document.getElementById("summary").innerHTML = `
-          <b>Цель:</b> ${selectedGoal}<br>
-          <b>Тип заказа:</b> ${answers["orderType"]}<br>
-          <b>Адрес:</b> ${answers["address"]}<br>
-          <b>Контакт:</b> ${answers["contact"]}
-        `;
-      }
-    }
-  }
-
-  function submitInput(key, inputId) {
-    const value = document.getElementById(inputId).value.trim();
-    if (value === "") {
-      alert("Пожалуйста, заполните поле");
-      return;
-    }
-    selectAnswer(key, value);
-  }
-
-  function finishOnboarding() {
-    localStorage.setItem("onboardingComplete", "true");
-    localStorage.setItem("onboardingAnswers", JSON.stringify(answers));
-    document.getElementById("onboarding").style.display = "none";
-    console.log("Ответы:", answers);
-  }
-
-  function startOnboarding(goal) {
-    selectedGoal = goal;
-    answers = {};
-    currentStep = 2;
-    document.getElementById("onboarding").style.display = "flex";
-
-    // Барлық қадамдарды жасыру
-    for (let i = 1; i <= 10; i++) {
-      const step = document.getElementById(`step-${i}`);
-      if (step) step.style.display = "none";
-    }
-
-    // 2-қадамды көрсету
-    document.getElementById("step-2").style.display = "block";
-  }
-</script>
-
-</script>
-
-    
 </head>
 <body>
-
-        <header class="navbar">
-            <div class="logo"> <img src=" лого.png " alt="Логотип">My Diet Plan</div>
-            <nav>
-                <a href="index.html">Главная</a>
-                <a href="онлайн заказ.html">Онлайн-заказы</a>
-                <a href="цена.html">Наши услуги</a>
-            </nav>
-            </header>
+    <header class="navbar">
+        <div class="logo">
+            <img src="лого.png" alt="Логотип"> My Diet Plan
+        </div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="онлайн заказ.html">Онлайн-заказы</a>
+            <a href="цена.html">Наши услуги</a>
+        </nav>
+    </header>
 
     <h2>Наши услуги</h2>
 
     <section class="services">
-<!-- Правильное питание -->
-<div class="card">
-    <img src="..." alt="">
-    <h3>Правильное питание</h3>
-    <p>Легко, вкусно и с пользой для здоровья</p>
-    <p>90 000 ₸ / ай (30 күн)</p>
-    <div class="button-row">
-        <button onclick="startOnboarding('ПП')">Выбрать</button>
-    </div>
-</div>
-
-<!-- Набор массы -->
-<div class="card">
-    <img src="..." alt="...">
-    <h3>Набор массы</h3>
-    <p>Набирай мышечную массу правильно</p>
-    <p>110 000 ₸ / ай (30 күн)</p>
-    <div class="button-row">
-        <button onclick="startOnboarding('Масса')">Выбрать</button>
-    </div>
-</div>
-
-<!-- Снижение веса -->
-<div class="card">
-    <img src="..." alt="">
-    <h3>Снижение веса</h3>
-    <p>Худей вкусно и безопасно</p>
-    <p>95 000 ₸ / ай (30 күн)</p>
-    <div class="button-row">
-        <button onclick="startOnboarding('Похудение')">Выбрать</button>
-    </div>
-</div>
-
+        <div class="card">
+            <img src="https://avatars.mds.yandex.net/i?id=18bffa2c1da3549c8224ad3bb850ddcb_l-9106769-images-thumbs&n=13" alt="">
+            <h3>Правильное питание</h3>
+            <p>Легко, вкусно и с пользой для здоровья</p>
+            <p>90 000 ₸ / ай (30 күн)</p>
+            <button onclick="startOnboarding('ПП')">Выбрать</button>
         </div>
 
-<!-- Onboarding Block -->
-<div id="onboarding" class="onboarding" style="display: none;">
-  <div class="onboarding-step" id="step-2">
-    <h2>Какой тип заказа вас интересует?</h2>
-    <button onclick="selectAnswer('orderType', 'На неделю')">На неделю</button>
-    <button onclick="selectAnswer('orderType', 'На месяц')">На месяц</button>
-  </div>
+        <div class="card">
+            <img src="https://avatars.dzeninfra.ru/get-zen_doc/1722013/pub_61d52287734aea3ca58774f0_61d523bae27786705a0b913b/scale_1200" alt="">
+            <h3>Набор массы</h3>
+            <p>Набирай мышечную массу правильно</p>
+            <p>110 000 ₸ / ай (30 күн)</p>
+            <button onclick="startOnboarding('Масса')">Выбрать</button>
+        </div>
 
-  <div class="onboarding-step" id="step-3" style="display: none;">
-    <h2>Откуда вы о нас узнали?</h2>
-    <button onclick="selectAnswer('source', 'Instagram')">Instagram</button>
-    <button onclick="selectAnswer('source', 'От друзей')">От друзей</button>
-    <button onclick="selectAnswer('source', 'Google')">Google</button>
-  </div>
+        <div class="card">
+            <img src="https://www.eko-blog.ru/uploads/1553243428.3025.jpg" alt="">
+            <h3>Снижение веса</h3>
+            <p>Худей вкусно и безопасно</p>
+            <p>95 000 ₸ / ай (30 күн)</p>
+            <button onclick="startOnboarding('Похудение')">Выбрать</button>
+        </div>
+    </section>
 
-  <div class="onboarding-step" id="step-4" style="display: none;">
-    <h2>Когда вам удобно получать еду?</h2>
-    <button onclick="selectAnswer('delivery', 'Утром')">Утром</button>
-    <button onclick="selectAnswer('delivery', 'Вечером')">Вечером</button>
-  </div>
+    <div id="onboarding" class="onboarding">
+        <div class="onboarding-step" id="step-2">
+            <h2>Какой тип заказа вас интересует?</h2>
+            <button onclick="selectAnswer('orderType', 'На неделю')">На неделю</button>
+            <button onclick="selectAnswer('orderType', 'На месяц')">На месяц</button>
+        </div>
+        <!-- Остальные шаги добавь сюда, как у тебя было -->
 
-  <div class="onboarding-step" id="step-5" style="display: none;">
-    <h2>У вас есть аллергии?</h2>
-    <button onclick="selectAnswer('allergy', 'Нет')">Нет</button>
-    <button onclick="selectAnswer('allergy', 'Орехи')">Орехи</button>
-    <button onclick="selectAnswer('allergy', 'Глютен')">Глютен</button>
-  </div>
 
-  <div class="onboarding-step" id="step-6" style="display: none;">
-    <h2>Введите ваш адрес</h2>
-    <input type="text" id="addressInput" placeholder="Адрес доставки" />
-    <button onclick="submitInput('address', 'addressInput')">Продолжить</button>
-  </div>
+        <div class="onboarding-step" id="step-3" style="display: none;">
+            <h2>Откуда вы о нас узнали?</h2>
+            <button onclick="selectAnswer('source', 'Instagram')">Instagram</button>
+            <button onclick="selectAnswer('source', 'От друзей')">От друзей</button>
+            <button onclick="selectAnswer('source', 'Google')">Google</button>
+        </div>
 
-  <div class="onboarding-step" id="step-7" style="display: none;">
-    <h2>Ваш текущий вес</h2>
-    <input type="number" id="weightInput" placeholder="кг" />
-    <button onclick="submitInput('weight', 'weightInput')">Продолжить</button>
-  </div>
+        <div class="onboarding-step" id="step-4" style="display: none;">
+            <h2>Когда вам удобно получать еду?</h2>
+            <button onclick="selectAnswer('delivery', 'Утром')">Утром</button>
+            <button onclick="selectAnswer('delivery', 'Вечером')">Вечером</button>
+        </div>
 
-  <div class="onboarding-step" id="step-8" style="display: none;">
-    <h2>Ваш рост</h2>
-    <input type="number" id="heightInput" placeholder="см" />
-    <button onclick="submitInput('height', 'heightInput')">Продолжить</button>
-  </div>
 
-  <div class="onboarding-step" id="step-9" style="display: none;">
-    <h2>Контакт для связи</h2>
-    <input type="text" id="contactInput" placeholder="Телефон / WhatsApp" />
-    <button onclick="submitInput('contact', 'contactInput')">Продолжить</button>
-  </div>
+        <div class="onboarding-step" id="step-5" style="display: none;">
+            <h2>У вас есть аллергии?</h2>
+            <button onclick="selectAnswer('allergy', 'Нет')">Нет</button>
+            <button onclick="selectAnswer('allergy', 'Орехи')">Орехи</button>
+            <button onclick="selectAnswer('allergy', 'Глютен')">Глютен</button>
+        </div>
 
-  <div class="onboarding-step" id="step-10" style="display: none;">
-    <h2>Спасибо!</h2>
-    <p id="summary"></p>
-    <button onclick="finishOnboarding()">Начать</button>
-  </div>
-</div>
+        <div class="onboarding-step" id="step-6" style="display: none;">
+            <h2>Введите ваш адрес</h2>
+            <input type="text" id="addressInput" placeholder="Адрес доставки" />
+            <button onclick="submitInput('address', 'addressInput')">Продолжить</button>
+        </div>
 
+        <div class="onboarding-step" id="step-7" style="display: none;">
+            <h2>Ваш текущий вес</h2>
+            <input type="number" id="weightInput" placeholder="кг" />
+            <button onclick="submitInput('weight', 'weightInput')">Продолжить</button>
+        </div>
+
+        <div class="onboarding-step" id="step-8" style="display: none;">
+            <h2>Ваш рост</h2>
+            <input type="number" id="heightInput" placeholder="см" />
+            <button onclick="submitInput('height', 'heightInput')">Продолжить</button>
+        </div>
+
+        <div class="onboarding-step" id="step-9" style="display: none;">
+            <h2>Контакт для связи</h2>
+            <input type="text" id="contactInput" placeholder="Телефон / WhatsApp" />
+            <button onclick="submitInput('contact', 'contactInput')">Продолжить</button>
+        </div>
+
+        <div class="onboarding-step" id="step-10" style="display: none;">
+            <h2>Спасибо!</h2>
+            <p id="summary"></p>
+            <button onclick="finishOnboarding()">Начать</button>
+        </div>
+
+
+    </div>
+
+    <script>
+        const menuData = {
+            "ПП": ["Меню 1", "Меню 2"],
+            "Масса": ["Меню 1", "Меню 2"],
+            "Похудение": ["Меню 1", "Меню 2"]
+        };
+
+        const priceData = {
+            "ПП": { week: "14 000 ₸", month: "55 000 ₸" },
+            "Масса": { week: "16 000 ₸", month: "62 000 ₸" },
+            "Похудение": { week: "13 000 ₸", month: "50 000 ₸" }
+        };
+
+        let selectedGoal = null;
+        let currentStep = 2;
+        let answers = {};
+
+        function startOnboarding(goal) {
+            selectedGoal = goal;
+            answers = {};
+            currentStep = 2;
+            document.getElementById("onboarding").style.display = "flex";
+            for (let i = 2; i <= 10; i++) {
+                let step = document.getElementById("step-" + i);
+                if (step) step.style.display = "none";
+            }
+            document.getElementById("step-2").style.display = "block";
+        }
+
+        function selectAnswer(key, value) {
+            answers[key] = value;
+            const currentEl = document.getElementById("step-" + currentStep);
+            if (currentEl) currentEl.style.display = "none";
+            currentStep++;
+            const nextEl = document.getElementById("step-" + currentStep);
+            if (nextEl) nextEl.style.display = "block";
+        }
+    </script>
 </body>
 </html>
