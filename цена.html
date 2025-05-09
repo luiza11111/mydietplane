@@ -244,107 +244,131 @@
 
     </div>
 
-    <script>
-       const menuData = {
-  "ПП": [
-    "День 1: Овсянка с ягодами, Куриная грудка с гречкой, Творог с медом",
-    "День 2: Яйца пашот и салат, Рыба на пару с овощами, Кефир с фруктами",
-    "День 3: Смузи с бананом и шпинатом, Индейка с рисом, Орехи и яблоко",
-    "День 4: Омлет с помидорами, Тушеные овощи с курицей, Йогурт натуральный",
-    "День 5: Хлеб цельнозерновой с авокадо, Тыквенный суп, Фрукты и орехи",
-    "День 6: Каша из киноа с фруктами, Котлеты из индейки, Овощной салат",
-    "День 7: Сырники из творога, Гречка с овощами, Кефир"
-  ],
-  "Масса": [
-    "День 1: Омлет с сыром и хлебом, Плов с говядиной, Протеиновый коктейль",
-    "День 2: Панкейки с бананом и мёдом, Макароны с курицей, Орехи и изюм",
-    "День 3: Бутерброд с арахисовой пастой, Картофель с мясом, Творожная запеканка",
-    "День 4: Яичница с хлебом, Бурый рис с курицей, Йогурт с орехами",
-    "День 5: Манная каша с маслом, Тушеная говядина с гречкой, Смузи",
-    "День 6: Блины с творогом, Запечённая курица с картошкой, Банан",
-    "День 7: Мюсли с молоком, Макароны по-флотски, Орехи и батончик"
-  ],
-  "Похудение": [
-    "День 1: Яблоко и йогурт, Курица с овощами, Кефир",
-    "День 2: Омлет на пару, Рыба с брокколи, Салат из капусты",
-    "День 3: Смузи с ягодами, Творог 5%, Гречка с тушеными овощами",
-    "День 4: Овсянка на воде, Вареное яйцо, Овощной суп",
-    "День 5: Зеленое яблоко, Куриный рулет с овощами, Кефир",
-    "День 6: Яйца и шпинат, Филе индейки с овощами, Натуральный йогурт",
-    "День 7: Смузи, Отварная рыба с кабачками, Творог нежирный"
-  ]
+   <script>
+const questions = [
+    { id: "goal", text: "Какая у вас цель?" },
+    { id: "gender", text: "Ваш пол?" },
+    { id: "age", text: "Ваш возраст?" },
+    { id: "weight", text: "Ваш вес?" },
+    { id: "activity", text: "Уровень физической активности?" },
+    { id: "allergy", text: "Есть ли аллергия?" },
+    { id: "foodType", text: "Тип питания: вегетарианец, веган, обычный?" },
+    { id: "orderType", text: "На сколько дней вы хотите заказать?" },
+    { id: "contact", text: "Ваш номер телефона:" }
+];
+
+let currentStep = 0;
+let selectedGoal = "";
+let answers = {};
+
+const priceData = {
+    "Похудение": { week: "15 000 тг", month: "60 000 тг" },
+    "Набор массы": { week: "17 000 тг", month: "68 000 тг" },
+    "Правильное питание (ПП)": { week: "16 000 тг", month: "64 000 тг" }
 };
 
+const menuData = {
+    "Похудение": [
+        { breakfast: "овсянка", lunch: "индейка, овощи", dinner: "рыба, салат" },
+        { breakfast: "йогурт", lunch: "рис с рыбой", dinner: "курица, брокколи" },
+        { breakfast: "яйца", lunch: "курица, овощи", dinner: "тушеное мясо, картофель" },
+        { breakfast: "смузи", lunch: "бурый рис, рагу", dinner: "творог, овощи" },
+        { breakfast: "омлет", lunch: "овощной суп, рыба", dinner: "салат, курица" },
+        { breakfast: "творог", lunch: "чечевица, овощи", dinner: "фрукты, салат" },
+        { breakfast: "овсянка", lunch: "курица, огурцы-помидоры", dinner: "овощное рагу" }
+    ],
+    "Набор массы": [
+        { breakfast: "овсянка, яйца", lunch: "стейк, макароны", dinner: "курица, картофель", snack: "миндаль, банан" },
+        { breakfast: "омлет", lunch: "курица, рис", dinner: "йогурт, рыба", snack: "орехи, творог" },
+        { breakfast: "йогурт", lunch: "рыба, картофель", dinner: "тушеное мясо, салат", snack: "смузи с протеином" },
+        { breakfast: "каша", lunch: "рагу, авокадо", dinner: "омлет, овощи", snack: "протеиновые батончики" },
+        { breakfast: "смузи", lunch: "макароны, стейк", dinner: "курица, овощи", snack: "творог с медом" },
+        { breakfast: "протеин", lunch: "бургер (домашний), овощи", dinner: "рыба, картофель", snack: "яблоки с орехами" },
+        { breakfast: "овсянка", lunch: "рыба, авокадо", dinner: "курица, овощи", snack: "коктейль с протеином" }
+    ],
+    "Правильное питание (ПП)": [
+        { breakfast: "омлет", lunch: "салат, курица", dinner: "рыба, картофель" },
+        { breakfast: "овсянка", lunch: "овощной суп, индейка", dinner: "курица, гречка" },
+        { breakfast: "смузи", lunch: "чечевица, салат", dinner: "рыба, картофель" },
+        { breakfast: "йогурт", lunch: "рыба, бурый рис", dinner: "овощи, курица" },
+        { breakfast: "творог", lunch: "рагу, овощи", dinner: "салат, курица" },
+        { breakfast: "яйца", lunch: "салат, курица", dinner: "рыба, картофель" },
+        { breakfast: "овсянка", lunch: "овощное пюре, рыба", dinner: "овощной салат, курица" }
+    ]
+};
 
-        const priceData = {
-            "ПП": { week: "14 000 ₸", month: "55 000 ₸" },
-            "Масса": { week: "16 000 ₸", month: "62 000 ₸" },
-            "Похудение": { week: "13 000 ₸", month: "50 000 ₸" }
-        };
+function startOnboarding(goal) {
+    selectedGoal = goal;
+    document.getElementById("goal-cards").style.display = "none";
+    document.getElementById("question").innerText = questions[1].text;
+    document.getElementById("answer").style.display = "block";
+    document.getElementById("navigation").style.display = "block";
+}
 
-        let selectedGoal = null;
-    let currentStep = 2;
-    let answers = {};
+function nextQuestion() {
+    const answer = document.getElementById("user-answer").value;
+    if (answer.trim() === "") return;
 
-    function startOnboarding(goal) {
-        selectedGoal = goal;
-        answers = {};
-        currentStep = 2;
-        document.getElementById("onboarding").style.display = "flex";
-        for (let i = 2; i <= 10; i++) {
-            let step = document.getElementById("step-" + i);
-            if (step) step.style.display = "none";
-        }
-        document.getElementById("step-2").style.display = "block";
+    const question = questions[currentStep + 1];
+    answers[question.text] = answer;
+
+    document.getElementById("user-answer").value = "";
+    currentStep++;
+    if (currentStep < questions.length - 1) {
+        document.getElementById("question").innerText = questions[currentStep + 1].text;
+    } else {
+        document.getElementById("answer").style.display = "none";
+        document.getElementById("navigation").style.display = "none";
+        showSummary();
+    }
+}
+
+function showSummary() {
+    let summaryText = `<b>Ваш выбор:</b><br>`;
+    summaryText += `Цель: <b>${selectedGoal}</b><br><br>`;
+
+    for (let key in answers) {
+        summaryText += `<b>${key}:</b> ${answers[key]}<br>`;
     }
 
-    function selectAnswer(key, value) {
-        answers[key] = value;
-        const currentEl = document.getElementById("step-" + currentStep);
-        if (currentEl) currentEl.style.display = "none";
-        currentStep++;
-        const nextEl = document.getElementById("step-" + currentStep);
-        if (nextEl) {
-            nextEl.style.display = "block";
-        } else {
-            showSummary();
+    const duration = answers["На сколько дней вы хотите заказать?"] === "На неделю" ? "week" : "month";
+    const price = priceData[selectedGoal][duration];
+    summaryText += `<br><b>Стоимость:</b> ${price}<br>`;
+
+    const menu = menuData[selectedGoal];
+
+    summaryText += `<br><b>Меню:</b><br>`;
+    if (duration === "week") {
+        summaryText += "<ul>";
+        menu.forEach(day => {
+            summaryText += `<li><b>Завтрак:</b> ${day.breakfast}<br><b>Обед:</b> ${day.lunch}<br><b>Ужин:</b> ${day.dinner}`;
+            if (day.snack) {
+                summaryText += `<br><b>Перекус:</b> ${day.snack}`;
+            }
+            summaryText += "</li>";
+        });
+        summaryText += "</ul>";
+    } else {
+        summaryText += "Каждый день меню разное (меняется еженедельно).<br>";
+        summaryText += "<ul>";
+        for (let i = 1; i <= 30; i++) {
+            summaryText += `<li>День ${i}: <b>Завтрак:</b> ${menu[(i - 1) % menu.length].breakfast}<br><b>Обед:</b> ${menu[(i - 1) % menu.length].lunch}<br><b>Ужин:</b> ${menu[(i - 1) % menu.length].dinner}`;
+            if (menu[(i - 1) % menu.length].snack) {
+                summaryText += `<br><b>Перекус:</b> ${menu[(i - 1) % menu.length].snack}`;
+            }
+            summaryText += "</li>";
         }
+        summaryText += "</ul>";
     }
 
-    function submitInput(key, inputId) {
-        const input = document.getElementById(inputId);
-        const value = input.value.trim();
-        if (value === "") {
-            alert("Пожалуйста, заполните поле.");
-            return;
-        }
+    document.getElementById("summary").innerHTML = summaryText;
+    document.getElementById("step-" + currentStep).style.display = "block";
+}
 
-        answers[key] = value;
-
-        const currentEl = document.getElementById("step-" + currentStep);
-        if (currentEl) currentEl.style.display = "none";
-        currentStep++;
-        const nextEl = document.getElementById("step-" + currentStep);
-        if (nextEl) {
-            nextEl.style.display = "block";
-        } else {
-            showSummary();
-        }
-    }
-
-    function showSummary() {
-        let summaryText = "Вы выбрали цель: <b>" + selectedGoal + "</b><br><br>";
-        for (let key in answers) {
-            summaryText += `<b>${key}</b>: ${answers[key]}<br>`;
-        }
-        document.getElementById("summary").innerHTML = summaryText;
-        document.getElementById("step-" + currentStep).style.display = "block";
-    }
-
-    function finishOnboarding() {
-        alert("Заявка отправлена! Спасибо!");
-        document.getElementById("onboarding").style.display = "none";
-    }
+function finishOnboarding() {
+    // Пусто — ничего не показываем
+}
 </script>
+
 </body>
 </html>
