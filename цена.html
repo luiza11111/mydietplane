@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="лого.png">
+    <link rel="icon" type="image/png" href="logo.png">
     <title>My Diet Plan</title>
     <style>
         body {
@@ -28,14 +28,6 @@
             display: flex;
             align-items: center;
         }
-
-            .logo img {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                object-fit: cover;
-                margin-right: 10px;
-            }
 
         nav a {
             margin: 0 15px;
@@ -118,10 +110,12 @@
         .onboarding-step {
             background-color: #4a4e3a;
             padding: 30px;
-            max-width: 400px;
+            max-width: 800px; /* бұрын 400px еді */
+            width: 90%; /* экранның еніне бейімделеді */
             border-radius: 10px;
             text-align: center;
         }
+
 
             .onboarding-step input {
                 width: 100%;
@@ -144,12 +138,12 @@
 <body>
     <header class="navbar">
         <div class="logo">
-            <img src="лого.png" alt="Логотип"> My Diet Plan
+            <img src="logo.png" alt="Logo"> My Diet Plan
         </div>
         <nav>
             <a href="index.html">Главная</a>
-            <a href="онлайн заказ.html">Онлайн-заказы</a>
-            <a href="цена.html">Наши услуги</a>
+            <a href="order.html">Онлайн-заказы</a>
+            <a href="services.html">Наши услуги</a>
         </nav>
     </header>
 
@@ -157,27 +151,27 @@
 
     <section class="services">
         <div class="card">
-            <img src="https://avatars.mds.yandex.net/i?id=18bffa2c1da3549c8224ad3bb850ddcb_l-9106769-images-thumbs&n=13" alt="">
+            <img src="https://example.com/food1.jpg" alt="">
             <h3>Правильное питание</h3>
             <p>Легко, вкусно и с пользой для здоровья</p>
             <p>90 000 ₸ / ай (30 күн)</p>
-            <button onclick="startOnboarding('ПП')">Выбрать</button>
+            <button onclick="startOnboarding('Правильное питание')">Выбрать</button>
         </div>
 
         <div class="card">
-            <img src="https://avatars.dzeninfra.ru/get-zen_doc/1722013/pub_61d52287734aea3ca58774f0_61d523bae27786705a0b913b/scale_1200" alt="">
+            <img src="https://example.com/food2.jpg" alt="">
             <h3>Набор массы</h3>
             <p>Набирай мышечную массу правильно</p>
             <p>110 000 ₸ / ай (30 күн)</p>
-            <button onclick="startOnboarding('Масса')">Выбрать</button>
+            <button onclick="startOnboarding('Набор массы')">Выбрать</button>
         </div>
 
         <div class="card">
-            <img src="https://www.eko-blog.ru/uploads/1553243428.3025.jpg" alt="">
+            <img src="https://example.com/food3.jpg" alt="">
             <h3>Снижение веса</h3>
             <p>Худей вкусно и безопасно</p>
             <p>95 000 ₸ / ай (30 күн)</p>
-            <button onclick="startOnboarding('Похудение')">Выбрать</button>
+            <button onclick="startOnboarding('Снижение веса')">Выбрать</button>
         </div>
     </section>
 
@@ -187,8 +181,6 @@
             <button onclick="selectAnswer('orderType', 'На неделю')">На неделю</button>
             <button onclick="selectAnswer('orderType', 'На месяц')">На месяц</button>
         </div>
-        <!-- Остальные шаги добавь сюда, как у тебя было -->
-
 
         <div class="onboarding-step" id="step-3" style="display: none;">
             <h2>Откуда вы о нас узнали?</h2>
@@ -202,7 +194,6 @@
             <button onclick="selectAnswer('delivery', 'Утром')">Утром</button>
             <button onclick="selectAnswer('delivery', 'Вечером')">Вечером</button>
         </div>
-
 
         <div class="onboarding-step" id="step-5" style="display: none;">
             <h2>У вас есть аллергии?</h2>
@@ -236,139 +227,149 @@
         </div>
 
         <div class="onboarding-step" id="step-10" style="display: none;">
-            <h2>Спасибо!</h2>
+            <h2>Спасибо что выбрали нас!</h2>
             <p id="summary"></p>
-            <button onclick="finishOnboarding()">Начать</button>
         </div>
-
 
     </div>
 
-   <script>
-const questions = [
-    { id: "goal", text: "Какая у вас цель?" },
-    { id: "gender", text: "Ваш пол?" },
-    { id: "age", text: "Ваш возраст?" },
-    { id: "weight", text: "Ваш вес?" },
-    { id: "activity", text: "Уровень физической активности?" },
-    { id: "allergy", text: "Есть ли аллергия?" },
-    { id: "foodType", text: "Тип питания: вегетарианец, веган, обычный?" },
-    { id: "orderType", text: "На сколько дней вы хотите заказать?" },
-    { id: "contact", text: "Ваш номер телефона:" }
-];
+    <script>
+        let currentStep = 0;
+        let selectedGoal = "";
+        let answers = {};
 
-let currentStep = 0;
-let selectedGoal = "";
-let answers = {};
+        const fieldLabels = {
+            orderType: "Тип заказа",
+            source: "Откуда узнали",
+            delivery: "Время доставки",
+            allergy: "Аллергия",
+            address: "Адрес",
+            weight: "Вес",
+            height: "Рост",
+            contact: "Телефон"
+        };
 
-const priceData = {
-    "Похудение": { week: "15 000 тг", month: "60 000 тг" },
-    "Набор массы": { week: "17 000 тг", month: "68 000 тг" },
-    "Правильное питание (ПП)": { week: "16 000 тг", month: "64 000 тг" }
+
+        const priceData = {
+            "Снижение веса":  { week: "15 000 тг", month: "95 000 тг" },
+        "Набор массы":  { week: "17 000 тг", month: "110 000 тг" },
+        "Правильное питание": { week: "16 000 тг", month: "90 000 тг" }
+                    };
+
+        const menuData = {
+            "Снижение веса": [
+                { breakfast: "овсянка", lunch: "индейка, овощи", dinner: "рыба, салат" },
+                { breakfast: "йогурт", lunch: "рис с рыбой", dinner: "курица, брокколи" },
+                { breakfast: "яйца", lunch: "курица, овощи", dinner: "тушеное мясо, картофель" },
+                { breakfast: "смузи", lunch: "бурый рис, рагу", dinner: "творог, овощи" },
+                { breakfast: "омлет", lunch: "овощной суп, рыба", dinner: "салат, курица" },
+                { breakfast: "творог", lunch: "чечевица, овощи", dinner: "фрукты, салат" },
+                { breakfast: "овсянка", lunch: "курица, огурцы-помидоры", dinner: "овощное рагу" }
+            ],
+            "Набор массы": [
+                { breakfast: "овсянка, яйца", lunch: "стейк, макароны", dinner: "курица, картофель", snack: "миндаль, банан" },
+                { breakfast: "омлет", lunch: "курица, рис", dinner: "йогурт, рыба", snack: "орехи, творог" },
+                { breakfast: "йогурт", lunch: "рыба, картофель", dinner: "тушеное мясо, салат", snack: "смузи с протеином" },
+                { breakfast: "каша", lunch: "рагу, авокадо", dinner: "омлет, овощи", snack: "протеиновые батончики" },
+                { breakfast: "смузи", lunch: "макароны, стейк", dinner: "курица, овощи", snack: "творог с медом" },
+                { breakfast: "протеин", lunch: "бургер (домашний), овощи", dinner: "рыба, картофель", snack: "яблоки с орехами" },
+                { breakfast: "овсянка", lunch: "рыба, авокадо", dinner: "курица, овощи", snack: "коктейль с протеином" }
+            ],
+            "Правильное питание": [
+                { breakfast: "омлет", lunch: "салат, курица", dinner: "рыба, картофель" },
+                { breakfast: "овсянка", lunch: "овощной суп, индейка", dinner: "курица, гречка" },
+                { breakfast: "смузи", lunch: "чечевица, салат", dinner: "рыба, картофель" },
+                { breakfast: "йогурт", lunch: "рыба, бурый рис", dinner: "овощи, курица" },
+                { breakfast: "творог", lunch: "рагу, овощи", dinner: "салат, курица" },
+                { breakfast: "яйца", lunch: "салат, курица", dinner: "рыба, картофель" },
+                { breakfast: "овсянка", lunch: "овощное пюре, рыба", dinner: "овощной салат, курица" }
+            ]
+        };
+
+
+        const descriptionData = {
+            "Снижение веса": "Дефицит калорий без чувства голода: блюда насыщают и при этом способствуют снижению веса. Контроль БЖУ — без подсчётов: просто ешьте — и худейте. Подходит для женщин и мужчин: комфортный ритм и поддержка организма.",
+    "Набор массы": "Оптимально сбалансирован для роста мышц: белки, сложные углеводы, полезные жиры. Без вреда для здоровья: натуральные ингредиенты, без сахара и добавок. Результат через 2–4 недели: стабильный рост массы без лишнего жира.",
+    "Правильное питание": "Баланс, польза и вкус: помогает оставаться энергичным и здоровым. Идеально для повседневного питания: овощи, белки, сложные углеводы — всё в нужных пропорциях. Экономия времени: не нужно готовить и считать калории. Поддержка иммунитета и ЖКТ: клетчатка, витамины, натуральные продукты."
 };
 
-const menuData = {
-    "Похудение": [
-        { breakfast: "овсянка", lunch: "индейка, овощи", dinner: "рыба, салат" },
-        { breakfast: "йогурт", lunch: "рис с рыбой", dinner: "курица, брокколи" },
-        { breakfast: "яйца", lunch: "курица, овощи", dinner: "тушеное мясо, картофель" },
-        { breakfast: "смузи", lunch: "бурый рис, рагу", dinner: "творог, овощи" },
-        { breakfast: "омлет", lunch: "овощной суп, рыба", dinner: "салат, курица" },
-        { breakfast: "творог", lunch: "чечевица, овощи", dinner: "фрукты, салат" },
-        { breakfast: "овсянка", lunch: "курица, огурцы-помидоры", dinner: "овощное рагу" }
-    ],
-    "Набор массы": [
-        { breakfast: "овсянка, яйца", lunch: "стейк, макароны", dinner: "курица, картофель", snack: "миндаль, банан" },
-        { breakfast: "омлет", lunch: "курица, рис", dinner: "йогурт, рыба", snack: "орехи, творог" },
-        { breakfast: "йогурт", lunch: "рыба, картофель", dinner: "тушеное мясо, салат", snack: "смузи с протеином" },
-        { breakfast: "каша", lunch: "рагу, авокадо", dinner: "омлет, овощи", snack: "протеиновые батончики" },
-        { breakfast: "смузи", lunch: "макароны, стейк", dinner: "курица, овощи", snack: "творог с медом" },
-        { breakfast: "протеин", lunch: "бургер (домашний), овощи", dinner: "рыба, картофель", snack: "яблоки с орехами" },
-        { breakfast: "овсянка", lunch: "рыба, авокадо", dinner: "курица, овощи", snack: "коктейль с протеином" }
-    ],
-    "Правильное питание (ПП)": [
-        { breakfast: "омлет", lunch: "салат, курица", dinner: "рыба, картофель" },
-        { breakfast: "овсянка", lunch: "овощной суп, индейка", dinner: "курица, гречка" },
-        { breakfast: "смузи", lunch: "чечевица, салат", dinner: "рыба, картофель" },
-        { breakfast: "йогурт", lunch: "рыба, бурый рис", dinner: "овощи, курица" },
-        { breakfast: "творог", lunch: "рагу, овощи", dinner: "салат, курица" },
-        { breakfast: "яйца", lunch: "салат, курица", dinner: "рыба, картофель" },
-        { breakfast: "овсянка", lunch: "овощное пюре, рыба", dinner: "овощной салат, курица" }
-    ]
-};
 
-function startOnboarding(goal) {
-    selectedGoal = goal;
-    document.getElementById("goal-cards").style.display = "none";
-    document.getElementById("question").innerText = questions[1].text;
-    document.getElementById("answer").style.display = "block";
-    document.getElementById("navigation").style.display = "block";
-}
-
-function nextQuestion() {
-    const answer = document.getElementById("user-answer").value;
-    if (answer.trim() === "") return;
-
-    const question = questions[currentStep + 1];
-    answers[question.text] = answer;
-
-    document.getElementById("user-answer").value = "";
-    currentStep++;
-    if (currentStep < questions.length - 1) {
-        document.getElementById("question").innerText = questions[currentStep + 1].text;
-    } else {
-        document.getElementById("answer").style.display = "none";
-        document.getElementById("navigation").style.display = "none";
-        showSummary();
-    }
-}
-
-function showSummary() {
-    let summaryText = `<b>Ваш выбор:</b><br>`;
-    summaryText += `Цель: <b>${selectedGoal}</b><br><br>`;
-
-    for (let key in answers) {
-        summaryText += `<b>${key}:</b> ${answers[key]}<br>`;
-    }
-
-    const duration = answers["На сколько дней вы хотите заказать?"] === "На неделю" ? "week" : "month";
-    const price = priceData[selectedGoal][duration];
-    summaryText += `<br><b>Стоимость:</b> ${price}<br>`;
-
-    const menu = menuData[selectedGoal];
-
-    summaryText += `<br><b>Меню:</b><br>`;
-    if (duration === "week") {
-        summaryText += "<ul>";
-        menu.forEach(day => {
-            summaryText += `<li><b>Завтрак:</b> ${day.breakfast}<br><b>Обед:</b> ${day.lunch}<br><b>Ужин:</b> ${day.dinner}`;
-            if (day.snack) {
-                summaryText += `<br><b>Перекус:</b> ${day.snack}`;
-            }
-            summaryText += "</li>";
-        });
-        summaryText += "</ul>";
-    } else {
-        summaryText += "Каждый день меню разное (меняется еженедельно).<br>";
-        summaryText += "<ul>";
-        for (let i = 1; i <= 30; i++) {
-            summaryText += `<li>День ${i}: <b>Завтрак:</b> ${menu[(i - 1) % menu.length].breakfast}<br><b>Обед:</b> ${menu[(i - 1) % menu.length].lunch}<br><b>Ужин:</b> ${menu[(i - 1) % menu.length].dinner}`;
-            if (menu[(i - 1) % menu.length].snack) {
-                summaryText += `<br><b>Перекус:</b> ${menu[(i - 1) % menu.length].snack}`;
-            }
-            summaryText += "</li>";
+        function startOnboarding(goal) {
+            selectedGoal = goal;
+            document.getElementById("onboarding").style.display = "flex";
+            currentStep = 1;
+            document.getElementById("step-2").style.display = "block";
         }
-        summaryText += "</ul>";
-    }
 
-    document.getElementById("summary").innerHTML = summaryText;
-    document.getElementById("step-" + currentStep).style.display = "block";
-}
+        function selectAnswer(step, answer) {
+            answers[step] = answer;
+            currentStep++;
+            updateStep();
+        }
 
-function finishOnboarding() {
-    // Пусто — ничего не показываем
-}
-</script>
+        function submitInput(step, inputId) {
+            const value = document.getElementById(inputId).value;
+            if (value.trim()) {
+                answers[step] = value;
+                currentStep++;
+                updateStep();
+            }
+        }
 
+        function updateStep() {
+            for (let i = 2; i <= 10; i++) {
+                document.getElementById("step-" + i).style.display = "none";
+            }
+            if (currentStep <= 9) {
+                document.getElementById("step-" + currentStep).style.display = "block";
+            } else {
+                showSummary();
+            }
+        }
+
+        function showSummary() {
+            let summaryText = `<b>Ваш выбор:</b><br>`;
+            for (let key in answers) {
+                const label = fieldLabels[key] || key;
+                summaryText += `<b>${label}:</b> ${answers[key]}<br>`;
+            }
+
+            const duration = answers["orderType"] === "На неделю" ? "week" : "month";
+            const price = priceData[selectedGoal][duration];
+            summaryText += `<br><b>Стоимость:</b> ${price}<br>`;
+
+            // Добавление описания выбранной диеты
+            summaryText += `<br><b>Описание диеты:</b><br><p>${descriptionData[selectedGoal]}</p>`;
+
+            const menu = menuData[selectedGoal];
+
+            if (duration === "week") {
+                summaryText += `<br><b>Меню на 7 дней:</b><br><ul>`;
+                menu.forEach((day, index) => {
+                    summaryText += `<li><b>День ${index + 1}:</b> Завтрак: ${day.breakfast}, Обед: ${day.lunch}, Ужин: ${day.dinner}`;
+                    if (day.snack) {
+                        summaryText += `, Перекус: ${day.snack}`;
+                    }
+                    summaryText += `</li>`;
+                });
+                summaryText += `</ul>`;
+            }
+
+            summaryText += `<a href="https://kaspi.kz/transfers?ysclid=mahdfzomvk638027303" target="_blank" style="margin-top: 10px; background-color: #e2e2c8; color: #3b3f2f; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; text-align: center;">Купить</a>`;
+
+            document.getElementById("summary").innerHTML = summaryText;
+            document.getElementById("step-10").style.display = "block";
+        }
+
+
+
+        function buyNow() {
+            alert("Спасибо за покупку! Мы с вами свяжемся.");
+            document.getElementById("onboarding").style.display = "none";
+        }
+
+
+
+    </script>
 </body>
 </html>
